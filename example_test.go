@@ -2,6 +2,9 @@ package htmlgo_test
 
 import (
 	"context"
+	"fmt"
+	"net/http"
+	"net/http/httptest"
 	"os"
 
 	. "github.com/theplant/htmlgo"
@@ -225,4 +228,90 @@ func ExampleTag_05javascript() {
 	// 	}
 	// </script>
 	// </div>
+}
+
+/*
+An example about how to integrate into http.Handler, and how to do layout, and how to use context.
+*/
+func ExampleTag_06httphandler() {
+	type User struct {
+		Name string
+	}
+
+	userStatus := func() HTMLComponent {
+		return ComponentFunc(func(ctx context.Context) (r []byte, err error) {
+
+			if currentUser, ok := ctx.Value("currentUser").(*User); ok {
+				return Div(
+					Text(currentUser.Name),
+				).Class("username").MarshalHTML(ctx)
+			}
+
+			return Div(Text("Login")).Class("login").MarshalHTML(ctx)
+		})
+	}
+
+	myHeader := func() HTMLComponent {
+		return Div(
+			Text("header"),
+			userStatus(),
+		).Class("header")
+	}
+	myFooter := func() HTMLComponent {
+		return Div(Text("footer")).Class("footer")
+	}
+
+	layout := func(in HTMLComponent) (out HTMLComponent) {
+		out = HTML(
+			Head(
+				Meta().Charset("utf8"),
+			),
+			Body(
+				myHeader(),
+				in,
+				myFooter(),
+			),
+		)
+		return
+	}
+
+	getLoginUserFromCookie := func(r *http.Request) *User {
+		return &User{Name: "felix"}
+	}
+
+	homeHandler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		user := getLoginUserFromCookie(r)
+		ctx := context.WithValue(context.TODO(), "currentUser", user)
+
+		root := Div(
+			Text("This is my home page"),
+		)
+
+		Fprint(w, layout(root), ctx)
+	})
+
+	w := httptest.NewRecorder()
+	r := httptest.NewRequest("GET", "/", nil)
+	homeHandler.ServeHTTP(w, r)
+
+	fmt.Println(w.Body.String())
+
+	//Output:
+	// <!DOCTYPE html>
+	//
+	// <html>
+	// <head>
+	// <meta charset='utf8'></meta>
+	// </head>
+	//
+	// <body>
+	// <div class='header'>header
+	// <div class='username'>felix</div>
+	// </div>
+	//
+	// <div>This is my home page</div>
+	//
+	// <div class='footer'>footer</div>
+	// </body>
+	// </html>
 }
