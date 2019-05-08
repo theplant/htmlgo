@@ -7,7 +7,9 @@ import (
 	. "github.com/theplant/htmlgo"
 )
 
-// ### Create a simple div, Text will be escaped by html
+/*
+Create a simple div, Text will be escaped by html
+*/
 func ExampleTag_01simplediv() {
 	comp := Div(
 		Text("123<h1>"),
@@ -17,7 +19,9 @@ func ExampleTag_01simplediv() {
 	// <div>123&lt;h1&gt;</div>
 }
 
-// ### Create a full html page
+/*
+Create a full html page
+*/
 func ExampleTag_02fullhtml() {
 	comp := HTML(
 		Head(
@@ -45,7 +49,9 @@ func ExampleTag_02fullhtml() {
 	// </html>
 }
 
-// ### Use RawHTML and Component
+/*
+Use RawHTML and Component
+*/
 func ExampleTag_03rawhtmlandcomponent() {
 	userProfile := func(username string, avatarURL string) HTMLComponent {
 		return ComponentFunc(func(ctx context.Context) (r []byte, err error) {
@@ -121,7 +127,9 @@ func (b *MySelectBuilder) MarshalHTML(ctx context.Context) (r []byte, err error)
 	return Select(opts...).MarshalHTML(ctx)
 }
 
-// ### More complicated customized component
+/*
+More complicated customized component
+*/
 func ExampleTag_04newcomponentstyle() {
 
 	/*
@@ -176,4 +184,45 @@ func ExampleTag_04newcomponentstyle() {
 	//
 	// <option value='3'>label 3</option>
 	// </select>
+}
+
+/*
+Write a little bit of JavaScript and stylesheet
+*/
+func ExampleTag_05javascript() {
+
+	comp := Div(
+		Button("Hello").Id("hello"),
+		Style(`
+	.container {
+		background-color: red;
+	}
+`),
+
+		Script(`
+	var b = document.getElementById("hello")
+	b.onclick = function(e){
+		alert("Hello");
+	}
+`),
+	).Class("container")
+
+	Fprint(os.Stdout, comp, context.TODO())
+	//Output:
+	// <div class='container'>
+	// <button id='hello'>Hello</button>
+	//
+	// <style type='text/css'>
+	// 	.container {
+	// 		background-color: red;
+	// 	}
+	// </style>
+	//
+	// <script type='text/javascript'>
+	// 	var b = document.getElementById("hello")
+	// 	b.onclick = function(e){
+	// 		alert("Hello");
+	// 	}
+	// </script>
+	// </div>
 }

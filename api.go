@@ -3,8 +3,7 @@
 ## htmlgo
 
 Type safe and modularize way to generate html on server side.
-
-Import the package with `.` gives you simpler code:
+Download the package with `go get -v github.com/theplant/htmlgo` and import the package with `.` gives you simpler code:
 
 	import (
 		. "github.com/theplant/htmlgo"

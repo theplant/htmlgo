@@ -3,8 +3,7 @@
 ## htmlgo
 
 Type safe and modularize way to generate html on server side.
-
-Import the package with `.` gives you simpler code:
+Download the package with `go get -v github.com/theplant/htmlgo` and import the package with `.` gives you simpler code:
 
 
 ```go
@@ -15,7 +14,7 @@ import (
 
 
 
-### Create a simple div, Text will be escaped by html
+Create a simple div, Text will be escaped by html
 ```go
 	comp := Div(
 	    Text("123<h1>"),
@@ -25,7 +24,7 @@ import (
 	// <div>123&lt;h1&gt;</div>
 ```
 
-### Create a full html page
+Create a full html page
 ```go
 	comp := HTML(
 	    Head(
@@ -53,7 +52,7 @@ import (
 	// </html>
 ```
 
-### Use RawHTML and Component
+Use RawHTML and Component
 ```go
 	userProfile := func(username string, avatarURL string) HTMLComponent {
 	    return ComponentFunc(func(ctx context.Context) (r []byte, err error) {
@@ -96,7 +95,7 @@ import (
 	// </ul>
 ```
 
-### More complicated customized component
+More complicated customized component
 ```go
 	/*
 	    Define MySelect as follows:
@@ -150,6 +149,44 @@ import (
 	//
 	// <option value='3'>label 3</option>
 	// </select>
+```
+
+Write a little bit of JavaScript and stylesheet
+```go
+	comp := Div(
+	    Button("Hello").Id("hello"),
+	    Style(`
+	.container {
+	    background-color: red;
+	}
+	`),
+	
+	    Script(`
+	var b = document.getElementById("hello")
+	b.onclick = function(e){
+	    alert("Hello");
+	}
+	`),
+	).Class("container")
+	
+	Fprint(os.Stdout, comp, context.TODO())
+	//Output:
+	// <div class='container'>
+	// <button id='hello'>Hello</button>
+	//
+	// <style type='text/css'>
+	// 	.container {
+	// 		background-color: red;
+	// 	}
+	// </style>
+	//
+	// <script type='text/javascript'>
+	// 	var b = document.getElementById("hello")
+	// 	b.onclick = function(e){
+	// 		alert("Hello");
+	// 	}
+	// </script>
+	// </div>
 ```
 
 
