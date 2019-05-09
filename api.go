@@ -9,6 +9,8 @@ Download the package with `go get -v github.com/theplant/htmlgo` and import the 
 		. "github.com/theplant/htmlgo"
 	)
 
+also checkout full API documentation at: https://godoc.org/github.com/theplant/htmlgo
+
 */
 package htmlgo
 

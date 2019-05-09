@@ -12,6 +12,8 @@ import (
 )
 ```
 
+also checkout full API documentation at: <a href="https://godoc.org/github.com/theplant/htmlgo">https://godoc.org/github.com/theplant/htmlgo</a>
+
 
 
 Create a simple div, Text will be escaped by html
