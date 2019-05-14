@@ -42,15 +42,14 @@ func (b *HTMLTagBuilder) Children(comps ...HTMLComponent) (r *HTMLTagBuilder) {
 	return b
 }
 
-func (b *HTMLTagBuilder) setAttr(k string, v string) (r *HTMLTagBuilder) {
+func (b *HTMLTagBuilder) SetAttr(k string, v string) {
 	for _, at := range b.attrs {
 		if at[0] == k {
 			at[1] = v
-			return b
+			return
 		}
 	}
 	b.attrs = append(b.attrs, []string{k, v})
-	return b
 }
 
 func (b *HTMLTagBuilder) Attr(vs ...string) (r *HTMLTagBuilder) {
@@ -59,7 +58,7 @@ func (b *HTMLTagBuilder) Attr(vs ...string) (r *HTMLTagBuilder) {
 	}
 
 	for i := 0; i < len(vs); i = i + 2 {
-		b.setAttr(vs[i], vs[i+1])
+		b.SetAttr(vs[i], vs[i+1])
 	}
 	return b
 }

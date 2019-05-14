@@ -27,3 +27,8 @@ type ComponentFunc func(ctx context.Context) (r []byte, err error)
 func (f ComponentFunc) MarshalHTML(ctx context.Context) (r []byte, err error) {
 	return f(ctx)
 }
+
+type MutableAttrHTMLComponent interface {
+	HTMLComponent
+	SetAttr(k string, v string)
+}
