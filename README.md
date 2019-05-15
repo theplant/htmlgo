@@ -275,5 +275,25 @@ An example about how to integrate into http.Handler, and how to do layout, and h
 	// </html>
 ```
 
+An example show how to set different type of attributes
+```go
+	type MoreData struct {
+	    Name  string
+	    Count int
+	}
+	comp := Div(
+	    Input("username").
+	        Type("checkbox").
+	        Attr("checked", true).
+	        Attr("more-data", &MoreData{Name: "felix", Count: 100}).
+	        Attr("max-length", 10),
+	)
+	Fprint(os.Stdout, comp, context.TODO())
+	//Output:
+	// <div>
+	// <input name='username' type='checkbox' checked more-data='{"Name":"felix","Count":100}' max-length='10'></input>
+	// </div>
+```
+
 
 

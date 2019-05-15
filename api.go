@@ -30,5 +30,5 @@ func (f ComponentFunc) MarshalHTML(ctx context.Context) (r []byte, err error) {
 
 type MutableAttrHTMLComponent interface {
 	HTMLComponent
-	SetAttr(k string, v string)
+	SetAttr(k string, v interface{})
 }

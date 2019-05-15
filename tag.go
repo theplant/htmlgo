@@ -3,14 +3,20 @@ package htmlgo
 import (
 	"bytes"
 	"context"
+	"encoding/json"
 	"fmt"
 	"html"
 	"strings"
 )
 
+type tagAttr struct {
+	key   string
+	value interface{}
+}
+
 type HTMLTagBuilder struct {
 	tag        string
-	attrs      [][]string
+	attrs      []*tagAttr
 	classNames []string
 	children   []HTMLComponent
 }
@@ -19,7 +25,7 @@ func Tag(tag string) (r *HTMLTagBuilder) {
 	r = &HTMLTagBuilder{}
 
 	if r.attrs == nil {
-		r.attrs = [][]string{}
+		r.attrs = []*tagAttr{}
 	}
 
 	r.Tag(tag)
@@ -42,23 +48,27 @@ func (b *HTMLTagBuilder) Children(comps ...HTMLComponent) (r *HTMLTagBuilder) {
 	return b
 }
 
-func (b *HTMLTagBuilder) SetAttr(k string, v string) {
+func (b *HTMLTagBuilder) SetAttr(k string, v interface{}) {
 	for _, at := range b.attrs {
-		if at[0] == k {
-			at[1] = v
+		if at.key == k {
+			at.value = v
 			return
 		}
 	}
-	b.attrs = append(b.attrs, []string{k, v})
+	b.attrs = append(b.attrs, &tagAttr{k, v})
 }
 
-func (b *HTMLTagBuilder) Attr(vs ...string) (r *HTMLTagBuilder) {
+func (b *HTMLTagBuilder) Attr(vs ...interface{}) (r *HTMLTagBuilder) {
 	if len(vs)%2 != 0 {
 		vs = append(vs, "")
 	}
 
 	for i := 0; i < len(vs); i = i + 2 {
-		b.SetAttr(vs[i], vs[i+1])
+		if key, ok := vs[i].(string); ok {
+			b.SetAttr(key, vs[i+1])
+		} else {
+			panic(fmt.Sprintf("Attr key must be string, but was %#+v", vs[i]))
+		}
 	}
 	return b
 }
@@ -117,17 +127,17 @@ func (b *HTMLTagBuilder) Title(v string) (r *HTMLTagBuilder) {
 }
 
 func (b *HTMLTagBuilder) TabIndex(v int) (r *HTMLTagBuilder) {
-	b.Attr("tabindex", fmt.Sprint(v))
+	b.Attr("tabindex", v)
 	return b
 }
 
 func (b *HTMLTagBuilder) Required(v bool) (r *HTMLTagBuilder) {
-	b.Attr("required", fmt.Sprint(v))
+	b.Attr("required", v)
 	return b
 }
 
 func (b *HTMLTagBuilder) Readonly(v bool) (r *HTMLTagBuilder) {
-	b.Attr("readonly", fmt.Sprint(v))
+	b.Attr("readonly", v)
 	return b
 }
 
@@ -202,7 +212,12 @@ func (b *HTMLTagBuilder) Charset(v string) (r *HTMLTagBuilder) {
 }
 
 func (b *HTMLTagBuilder) Disabled(v bool) (r *HTMLTagBuilder) {
-	b.Attr("disabled", fmt.Sprint(v))
+	b.Attr("disabled", v)
+	return b
+}
+
+func (b *HTMLTagBuilder) Checked(v bool) (r *HTMLTagBuilder) {
+	b.Attr("checked", v)
 	return b
 }
 
@@ -233,7 +248,29 @@ func (b *HTMLTagBuilder) MarshalHTML(ctx context.Context) (r []byte, err error) 
 
 	attrSegs := []string{}
 	for _, at := range b.attrs {
-		attrSegs = append(attrSegs, fmt.Sprintf("%s='%s'", at[0], at[1]))
+		var seg string
+		switch v := at.value.(type) {
+		case string:
+			seg = fmt.Sprintf("%s='%s'", at.key, v)
+		case []byte:
+			seg = fmt.Sprintf("%s='%s'", at.key, string(v))
+		case []rune:
+			seg = fmt.Sprintf("%s='%s'", at.key, string(v))
+		case int, int8, int16, int32, int64,
+			uint, uint8, uint16, uint32, uint64:
+			seg = fmt.Sprintf("%s='%d'", at.key, v)
+		case float32, float64:
+			seg = fmt.Sprintf("%s='%f'", at.key, v)
+		case bool:
+			if v {
+				seg = at.key
+			}
+		default:
+			bseg, _ := json.Marshal(v)
+			val := strings.ReplaceAll(string(bseg), "\n", "")
+			seg = fmt.Sprintf("%s='%s'", at.key, val)
+		}
+		attrSegs = append(attrSegs, seg)
 	}
 
 	attrStr := ""
