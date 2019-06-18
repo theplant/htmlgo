@@ -166,6 +166,11 @@ func (b *HTMLTagBuilder) Value(v string) (r *HTMLTagBuilder) {
 	return b
 }
 
+func (b *HTMLTagBuilder) For(v string) (r *HTMLTagBuilder) {
+	b.Attr("for", v)
+	return b
+}
+
 func (b *HTMLTagBuilder) Style(v string) (r *HTMLTagBuilder) {
 	b.Attr("style", v)
 	return b
