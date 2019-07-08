@@ -253,30 +253,40 @@ func (b *HTMLTagBuilder) MarshalHTML(ctx context.Context) (r []byte, err error) 
 
 	attrSegs := []string{}
 	for _, at := range b.attrs {
-		var seg string
+		var val string
+		var isBool bool
+		var boolVal bool
 		switch v := at.value.(type) {
 		case string:
-			seg = fmt.Sprintf("%s='%s'", at.key, v)
+			val = v
 		case []byte:
-			seg = fmt.Sprintf("%s='%s'", at.key, string(v))
+			val = string(v)
 		case []rune:
-			seg = fmt.Sprintf("%s='%s'", at.key, string(v))
+			val = string(v)
 		case int, int8, int16, int32, int64,
 			uint, uint8, uint16, uint32, uint64:
-			seg = fmt.Sprintf("%s='%d'", at.key, v)
+			val = fmt.Sprintf(`%d`, v)
 		case float32, float64:
-			seg = fmt.Sprintf("%s='%f'", at.key, v)
+			val = fmt.Sprintf(`%f`, v)
 		case bool:
-			if v {
-				seg = at.key
-			}
+			boolVal = v
+			isBool = true
 		default:
 			bseg, _ := json.Marshal(v)
-			val := strings.ReplaceAll(string(bseg), "\n", "")
-			seg = fmt.Sprintf("%s='%s'", at.key, val)
+			val = string(bseg)
+		}
+
+		if len(val) == 0 && !isBool {
+			continue
+		}
+
+		seg := fmt.Sprintf(`%s='%s'`, escapeAttr(at.key), escapeAttr(val))
+		if isBool && boolVal {
+			seg = escapeAttr(at.key)
 		}
 		attrSegs = append(attrSegs, seg)
 	}
+
 
 	attrStr := ""
 	if len(attrSegs) > 0 {
@@ -298,5 +308,11 @@ func (b *HTMLTagBuilder) MarshalHTML(ctx context.Context) (r []byte, err error) 
 	}
 	buf.WriteString(fmt.Sprintf("</%s>\n", b.tag))
 	r = buf.Bytes()
+	return
+}
+
+func escapeAttr(str string) (r string) {
+	r = strings.Replace(str, "'", "&apos;", -1)
+	r = strings.Replace(r, "\n", "", -1)
 	return
 }

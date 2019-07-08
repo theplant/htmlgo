@@ -35,7 +35,21 @@ var htmltagCases = []struct {
 		),
 		expected: `
 <div>
-<div class='menu' id='menu-id' style=''>Hello</div>
+<div class='menu' id='menu-id'>Hello</div>
+</div>
+`,
+	},
+	{
+		name: "escape 1",
+		tag: Div(
+			Div().Text("Hello").
+				Attr("class", "menu",
+					"id", "the><&\"'-menu",
+					"style"),
+		),
+		expected: `
+<div>
+<div class='menu' id='the><&"&apos;-menu'>Hello</div>
 </div>
 `,
 	},
