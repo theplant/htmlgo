@@ -21,6 +21,10 @@ func Text(text string) (r HTMLComponent) {
 
 type HTMLComponents []HTMLComponent
 
+func Components(comps ...HTMLComponent) HTMLComponents {
+	return HTMLComponents(comps)
+}
+
 func (hcs HTMLComponents) MarshalHTML(ctx context.Context) (r []byte, err error) {
 	buf := bytes.NewBuffer(nil)
 	for _, h := range hcs {
