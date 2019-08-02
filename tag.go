@@ -272,8 +272,7 @@ func (b *HTMLTagBuilder) MarshalHTML(ctx context.Context) (r []byte, err error) 
 			boolVal = v
 			isBool = true
 		default:
-			bseg, _ := json.Marshal(v)
-			val = string(bseg)
+			val = JSONString(v)
 		}
 
 		if len(val) == 0 && !isBool {
@@ -286,7 +285,6 @@ func (b *HTMLTagBuilder) MarshalHTML(ctx context.Context) (r []byte, err error) 
 		}
 		attrSegs = append(attrSegs, seg)
 	}
-
 
 	attrStr := ""
 	if len(attrSegs) > 0 {
@@ -308,6 +306,15 @@ func (b *HTMLTagBuilder) MarshalHTML(ctx context.Context) (r []byte, err error) 
 	}
 	buf.WriteString(fmt.Sprintf("</%s>\n", b.tag))
 	r = buf.Bytes()
+	return
+}
+
+func JSONString(v interface{}) (r string) {
+	b, err := json.Marshal(v)
+	if err != nil {
+		panic(err)
+	}
+	r = string(b)
 	return
 }
 
