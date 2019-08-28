@@ -28,6 +28,9 @@ func Components(comps ...HTMLComponent) HTMLComponents {
 func (hcs HTMLComponents) MarshalHTML(ctx context.Context) (r []byte, err error) {
 	buf := bytes.NewBuffer(nil)
 	for _, h := range hcs {
+		if h == nil {
+			continue
+		}
 		var b []byte
 		b, err = h.MarshalHTML(ctx)
 		if err != nil {
