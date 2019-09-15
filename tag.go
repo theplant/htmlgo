@@ -279,6 +279,10 @@ func (b *HTMLTagBuilder) MarshalHTML(ctx context.Context) (r []byte, err error) 
 			continue
 		}
 
+		if isBool && !boolVal {
+			continue
+		}
+
 		seg := fmt.Sprintf(`%s='%s'`, escapeAttr(at.key), escapeAttr(val))
 		if isBool && boolVal {
 			seg = escapeAttr(at.key)

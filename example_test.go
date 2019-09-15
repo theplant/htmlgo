@@ -330,10 +330,15 @@ func ExampleTag_07MutipleTypeAttrs() {
 			Attr("checked", true).
 			Attr("more-data", &MoreData{Name: "felix", Count: 100}).
 			Attr("max-length", 10),
+		Input("username2").
+			Type("checkbox").
+			Attr("checked", false),
 	)
 	Fprint(os.Stdout, comp, context.TODO())
 	//Output:
 	// <div>
 	// <input name='username' type='checkbox' checked more-data='{"Name":"felix","Count":100}' max-length='10'></input>
+	//
+	// <input name='username2' type='checkbox'></input>
 	// </div>
 }
