@@ -445,7 +445,7 @@ func Samp(children ...HTMLComponent) (r *HTMLTagBuilder) {
 }
 
 //     "script": HTMLScriptElement;
-func Script(script string) (r HTMLComponent) {
+func Script(script string) (r *HTMLTagBuilder) {
 	return Tag("script").
 		Attr("type", "text/javascript").
 		Children(RawHTML(script))
@@ -487,7 +487,7 @@ func Strong(text string) (r *HTMLTagBuilder) {
 }
 
 //     "style": HTMLStyleElement;
-func Style(style string) (r HTMLComponent) {
+func Style(style string) (r *HTMLTagBuilder) {
 	return Tag("style").
 		Attr("type", "text/css").
 		Children(RawHTML(style))
