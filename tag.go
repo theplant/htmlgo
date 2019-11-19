@@ -73,6 +73,14 @@ func (b *HTMLTagBuilder) Attr(vs ...interface{}) (r *HTMLTagBuilder) {
 	return b
 }
 
+func (b *HTMLTagBuilder) AttrIf(key, value interface{}, add bool) (r *HTMLTagBuilder) {
+	if !add {
+		return b
+	}
+
+	return b.Attr(key, value)
+}
+
 func (b *HTMLTagBuilder) Class(names ...string) (r *HTMLTagBuilder) {
 	b.addClass(names...)
 	return b
@@ -172,6 +180,14 @@ func (b *HTMLTagBuilder) For(v string) (r *HTMLTagBuilder) {
 }
 
 func (b *HTMLTagBuilder) Style(v string) (r *HTMLTagBuilder) {
+	b.Attr("style", v)
+	return b
+}
+
+func (b *HTMLTagBuilder) StyleIf(v string, add bool) (r *HTMLTagBuilder) {
+	if !add {
+		return b
+	}
 	b.Attr("style", v)
 	return b
 }
