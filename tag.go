@@ -125,7 +125,7 @@ func (b *HTMLTagBuilder) Href(v string) (r *HTMLTagBuilder) {
 }
 
 func (b *HTMLTagBuilder) Rel(v string) (r *HTMLTagBuilder) {
-	b.Attr("ref", v)
+	b.Attr("rel", v)
 	return b
 }
 
