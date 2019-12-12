@@ -342,3 +342,15 @@ func ExampleTag_07MutipleTypeAttrs() {
 	// <input name='username2' type='checkbox'></input>
 	// </div>
 }
+
+/*
+An example show how to set styles
+*/
+func ExampleTag_08styles() {
+	comp := Div().
+		StyleIf("background-color:red; border:1px solid red;", true).
+		StyleIf("color:blue", true)
+	Fprint(os.Stdout, comp, context.TODO())
+	//Output:
+	// <div style='background-color:red; border:1px solid red;color:blue;'></div>
+}

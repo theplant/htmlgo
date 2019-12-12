@@ -17,6 +17,7 @@ type tagAttr struct {
 type HTMLTagBuilder struct {
 	tag        string
 	attrs      []*tagAttr
+	styles     []string
 	classNames []string
 	children   []HTMLComponent
 }
@@ -180,7 +181,7 @@ func (b *HTMLTagBuilder) For(v string) (r *HTMLTagBuilder) {
 }
 
 func (b *HTMLTagBuilder) Style(v string) (r *HTMLTagBuilder) {
-	b.Attr("style", v)
+	b.addStyle(strings.Trim(v, ";"))
 	return b
 }
 
@@ -188,7 +189,15 @@ func (b *HTMLTagBuilder) StyleIf(v string, add bool) (r *HTMLTagBuilder) {
 	if !add {
 		return b
 	}
-	b.Attr("style", v)
+	b.Style(v)
+	return b
+}
+
+func (b *HTMLTagBuilder) addStyle(v string) (r *HTMLTagBuilder) {
+	if len(v) > 0 {
+		b.styles = append(b.styles, v)
+	}
+
 	return b
 }
 
@@ -256,6 +265,11 @@ func (b *HTMLTagBuilder) MarshalHTML(ctx context.Context) (r []byte, err error) 
 	class := strings.TrimSpace(strings.Join(b.classNames, " "))
 	if len(class) > 0 {
 		b.Attr("class", class)
+	}
+
+	styles := strings.TrimSpace(strings.Join(b.styles, ";"))
+	if len(styles) > 0 {
+		b.Attr("style", styles+";")
 	}
 
 	// remove empty
