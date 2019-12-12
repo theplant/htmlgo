@@ -181,7 +181,7 @@ func (b *HTMLTagBuilder) For(v string) (r *HTMLTagBuilder) {
 }
 
 func (b *HTMLTagBuilder) Style(v string) (r *HTMLTagBuilder) {
-	b.addStyle(v)
+	b.addStyle(strings.Trim(v, ";"))
 	return b
 }
 
@@ -189,7 +189,7 @@ func (b *HTMLTagBuilder) StyleIf(v string, add bool) (r *HTMLTagBuilder) {
 	if !add {
 		return b
 	}
-	b.addStyle(v)
+	b.Style(v)
 	return b
 }
 
@@ -269,7 +269,7 @@ func (b *HTMLTagBuilder) MarshalHTML(ctx context.Context) (r []byte, err error) 
 
 	styles := strings.TrimSpace(strings.Join(b.styles, ";"))
 	if len(styles) > 0 {
-		b.Attr("style", styles)
+		b.Attr("style", styles+";")
 	}
 
 	// remove empty
