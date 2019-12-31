@@ -327,18 +327,20 @@ func (b *HTMLTagBuilder) MarshalHTML(ctx context.Context) (r []byte, err error) 
 
 	buf := bytes.NewBuffer(nil)
 	buf.WriteString(fmt.Sprintf("\n<%s%s>", b.tag, attrStr))
-	if len(cs) > 0 {
-		// buf.WriteString("\n")
-		for _, c := range cs {
-			var child []byte
-			child, err = c.MarshalHTML(ctx)
-			if err != nil {
-				return
+	if b.tag != "br" {
+		if len(cs) > 0 {
+			// buf.WriteString("\n")
+			for _, c := range cs {
+				var child []byte
+				child, err = c.MarshalHTML(ctx)
+				if err != nil {
+					return
+				}
+				buf.Write(child)
 			}
-			buf.Write(child)
 		}
+		buf.WriteString(fmt.Sprintf("</%s>\n", b.tag))
 	}
-	buf.WriteString(fmt.Sprintf("</%s>\n", b.tag))
 	r = buf.Bytes()
 	return
 }
