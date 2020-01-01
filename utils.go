@@ -19,6 +19,10 @@ func Text(text string) (r HTMLComponent) {
 	return RawHTML(html.EscapeString(text))
 }
 
+func Textf(format string, a ...interface{}) (r HTMLComponent) {
+	return Text(fmt.Sprintf(format, a...))
+}
+
 type HTMLComponents []HTMLComponent
 
 func Components(comps ...HTMLComponent) HTMLComponents {

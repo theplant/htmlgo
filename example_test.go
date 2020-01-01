@@ -14,13 +14,15 @@ import (
 Create a simple div, Text will be escaped by html
 */
 func ExampleTag_01simplediv() {
+	banner := "We write html in Go"
 	comp := Div(
 		Text("123<h1>"),
+		Textf("Hello, %s", banner),
 		Br(),
 	)
 	Fprint(os.Stdout, comp, context.TODO())
 	//Output:
-	// <div>123&lt;h1&gt;
+	// <div>123&lt;h1&gt;Hello, We write html in Go
 	// <br></div>
 }
 

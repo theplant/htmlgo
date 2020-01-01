@@ -18,13 +18,15 @@ also checkout full API documentation at: <a href="https://godoc.org/github.com/t
 
 Create a simple div, Text will be escaped by html
 ```go
+	banner := "We write html in Go"
 	comp := Div(
 	    Text("123<h1>"),
+	    Textf("Hello, %s", banner),
 	    Br(),
 	)
 	Fprint(os.Stdout, comp, context.TODO())
 	//Output:
-	// <div>123&lt;h1&gt;
+	// <div>123&lt;h1&gt;Hello, We write html in Go
 	// <br></div>
 ```
 
