@@ -16,10 +16,12 @@ Create a simple div, Text will be escaped by html
 func ExampleTag_01simplediv() {
 	comp := Div(
 		Text("123<h1>"),
+		Br(),
 	)
 	Fprint(os.Stdout, comp, context.TODO())
 	//Output:
-	// <div>123&lt;h1&gt;</div>
+	// <div>123&lt;h1&gt;
+	// <br></div>
 }
 
 /*

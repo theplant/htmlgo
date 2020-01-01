@@ -23,7 +23,8 @@ Create a simple div, Text will be escaped by html
 	)
 	Fprint(os.Stdout, comp, context.TODO())
 	//Output:
-	// <div>123&lt;h1&gt;</div>
+	// <div>123&lt;h1&gt;
+	// <br></div>
 ```
 
 Create a full html page

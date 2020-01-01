@@ -16,6 +16,7 @@ type tagAttr struct {
 
 type HTMLTagBuilder struct {
 	tag        string
+	omitEndTag bool
 	attrs      []*tagAttr
 	styles     []string
 	classNames []string
@@ -36,6 +37,11 @@ func Tag(tag string) (r *HTMLTagBuilder) {
 
 func (b *HTMLTagBuilder) Tag(v string) (r *HTMLTagBuilder) {
 	b.tag = v
+	return b
+}
+
+func (b *HTMLTagBuilder) OmitEndTag() (r *HTMLTagBuilder) {
+	b.omitEndTag = true
 	return b
 }
 
@@ -327,18 +333,20 @@ func (b *HTMLTagBuilder) MarshalHTML(ctx context.Context) (r []byte, err error) 
 
 	buf := bytes.NewBuffer(nil)
 	buf.WriteString(fmt.Sprintf("\n<%s%s>", b.tag, attrStr))
-	if len(cs) > 0 {
-		// buf.WriteString("\n")
-		for _, c := range cs {
-			var child []byte
-			child, err = c.MarshalHTML(ctx)
-			if err != nil {
-				return
+	if !b.omitEndTag {
+		if len(cs) > 0 {
+			// buf.WriteString("\n")
+			for _, c := range cs {
+				var child []byte
+				child, err = c.MarshalHTML(ctx)
+				if err != nil {
+					return
+				}
+				buf.Write(child)
 			}
-			buf.Write(child)
 		}
+		buf.WriteString(fmt.Sprintf("</%s>\n", b.tag))
 	}
-	buf.WriteString(fmt.Sprintf("</%s>\n", b.tag))
 	r = buf.Bytes()
 	return
 }

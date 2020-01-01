@@ -73,7 +73,7 @@ func Body(children ...HTMLComponent) (r *HTMLTagBuilder) {
 
 //     "br": HTMLBRElement;
 func Br() (r *HTMLTagBuilder) {
-	return Tag("br")
+	return Tag("br").OmitEndTag()
 }
 
 //     "button": HTMLButtonElement;
