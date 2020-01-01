@@ -20,6 +20,7 @@ Create a simple div, Text will be escaped by html
 ```go
 	comp := Div(
 	    Text("123<h1>"),
+	    Br(),
 	)
 	Fprint(os.Stdout, comp, context.TODO())
 	//Output:
