@@ -309,7 +309,7 @@ An example show how to set styles
 	    StyleIf("color:blue", true)
 	Fprint(os.Stdout, comp, context.TODO())
 	//Output:
-	// <div style='background-color:red; border:1px solid red;color:blue;'></div>
+	// <div style='background-color:red; border:1px solid red; color:blue;'></div>
 ```
 
 

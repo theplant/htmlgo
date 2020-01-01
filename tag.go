@@ -273,13 +273,13 @@ func (b *HTMLTagBuilder) MarshalHTML(ctx context.Context) (r []byte, err error) 
 		b.Attr("class", class)
 	}
 
-	styles := strings.TrimSpace(strings.Join(b.styles, ";"))
+	styles := strings.TrimSpace(strings.Join(b.styles, "; "))
 	if len(styles) > 0 {
 		b.Attr("style", styles+";")
 	}
 
 	// remove empty
-	cs := []HTMLComponent{}
+	var cs []HTMLComponent
 	for _, c := range b.children {
 		if c == nil {
 			continue
@@ -287,7 +287,7 @@ func (b *HTMLTagBuilder) MarshalHTML(ctx context.Context) (r []byte, err error) 
 		cs = append(cs, c)
 	}
 
-	attrSegs := []string{}
+	var attrSegs []string
 	for _, at := range b.attrs {
 		var val string
 		var isBool bool
