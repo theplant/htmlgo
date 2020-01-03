@@ -314,5 +314,29 @@ An example show how to set styles
 	// <div style='background-color:red; border:1px solid red; color:blue;'></div>
 ```
 
+An example to use If, `Iff` is for body to passed in as an func for the body depends on if condition not to be nil, `If` is for directly passed in HTMLComponent
+```go
+	type Person struct {
+	    Age int
+	}
+	var p *Person
+	
+	name := "Leon"
+	comp := Div(
+	    Iff(p != nil && p.Age > 18, func() HTMLComponent {
+	        return Div().Text(name + ": Age > 18")
+	    }).ElseIf(p == nil, func() HTMLComponent {
+	        return Div().Text("No person named " + name)
+	    }).Else(func() HTMLComponent {
+	        return Div().Text(name + ":Age <= 18")
+	    }),
+	)
+	Fprint(os.Stdout, comp, context.TODO())
+	//Output:
+	// <div>
+	// <div>No person named Leon</div>
+	// </div>
+```
+
 
 
