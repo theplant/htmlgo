@@ -49,7 +49,7 @@ var htmltagCases = []struct {
 		),
 		expected: `
 <div>
-<div class='menu' id='the><&"&apos;-menu'>Hello</div>
+<div class='menu' id='the><&"&#39;-menu'>Hello</div>
 </div>
 `,
 	},

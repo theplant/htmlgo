@@ -361,7 +361,7 @@ func JSONString(v interface{}) (r string) {
 }
 
 func escapeAttr(str string) (r string) {
-	r = strings.Replace(str, "'", "&apos;", -1)
-	r = strings.Replace(r, "\n", "", -1)
+	r = strings.Replace(str, "'", "&#39;", -1)
+	//r = strings.Replace(r, "\n", "", -1)
 	return
 }
