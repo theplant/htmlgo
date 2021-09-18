@@ -19,8 +19,8 @@ func Address(children ...HTMLComponent) (r *HTMLTagBuilder) {
 // Not support
 
 //     "area": HTMLAreaElement;
-func Area(children ...HTMLComponent) (r *HTMLTagBuilder) {
-	return Tag("area").Children(children...)
+func Area() (r *HTMLTagBuilder) {
+	return Tag("area").OmitEndTag()
 }
 
 //     "article": HTMLElement;
@@ -44,8 +44,8 @@ func B(text string) (r *HTMLTagBuilder) {
 }
 
 //     "base": HTMLBaseElement;
-func Base(children ...HTMLComponent) (r *HTMLTagBuilder) {
-	return Tag("base").Children(children...)
+func Base() (r *HTMLTagBuilder) {
+	return Tag("base").OmitEndTag()
 }
 
 //     "basefont": HTMLBaseFontElement;
@@ -102,8 +102,8 @@ func Code(text string) (r *HTMLTagBuilder) {
 }
 
 //     "col": HTMLTableColElement;
-func Col(children ...HTMLComponent) (r *HTMLTagBuilder) {
-	return Tag("col").Children(children...)
+func Col() (r *HTMLTagBuilder) {
+	return Tag("col").OmitEndTag()
 }
 
 //     "colgroup": HTMLTableColElement;
@@ -171,8 +171,8 @@ func Em(text string) (r *HTMLTagBuilder) {
 }
 
 //     "embed": HTMLEmbedElement;
-func Embed(children ...HTMLComponent) (r *HTMLTagBuilder) {
-	return Tag("embed").Children(children...)
+func Embed() (r *HTMLTagBuilder) {
+	return Tag("embed").OmitEndTag()
 }
 
 //     "fieldset": HTMLFieldSetElement;
@@ -257,7 +257,7 @@ func Hgroup(children ...HTMLComponent) (r *HTMLTagBuilder) {
 
 //     "hr": HTMLHRElement;
 func Hr() (r *HTMLTagBuilder) {
-	return Tag("hr")
+	return Tag("hr").OmitEndTag()
 }
 
 //     "html": HTMLHtmlElement;
@@ -280,13 +280,13 @@ func Iframe(children ...HTMLComponent) (r *HTMLTagBuilder) {
 
 //     "img": HTMLImageElement;
 func Img(src string) (r *HTMLTagBuilder) {
-	return Tag("img").Attr("src", src)
+	return Tag("img").OmitEndTag().Attr("src", src)
 }
 
 //     "input": HTMLInputElement;
 
 func Input(name string) (r *HTMLTagBuilder) {
-	return Tag("input").Attr("name", name)
+	return Tag("input").OmitEndTag().Attr("name", name)
 }
 
 //     "ins": HTMLModElement;
@@ -316,7 +316,7 @@ func Li(children ...HTMLComponent) (r *HTMLTagBuilder) {
 
 //     "link": HTMLLinkElement;
 func Link(href string) (r *HTMLTagBuilder) {
-	return Tag("link").Attr("href", href)
+	return Tag("link").OmitEndTag().Attr("href", href)
 }
 
 //     "main": HTMLElement;
@@ -345,7 +345,7 @@ func Menu(children ...HTMLComponent) (r *HTMLTagBuilder) {
 //     "meta": HTMLMetaElement;
 
 func Meta() (r *HTMLTagBuilder) {
-	return Tag("meta")
+	return Tag("meta").OmitEndTag()
 }
 
 //     "meter": HTMLMeterElement;
@@ -395,7 +395,7 @@ func P(children ...HTMLComponent) (r *HTMLTagBuilder) {
 
 //     "param": HTMLParamElement;
 func Param(name string) (r *HTMLTagBuilder) {
-	return Tag("param").Attr("name", name)
+	return Tag("param").OmitEndTag().Attr("name", name)
 }
 
 //     "picture": HTMLPictureElement;
@@ -473,7 +473,7 @@ func Small(text string) (r *HTMLTagBuilder) {
 
 //     "source": HTMLSourceElement;
 func Source(src string) (r *HTMLTagBuilder) {
-	return Tag("source").Attr("src", src)
+	return Tag("source").OmitEndTag().Attr("src", src)
 }
 
 //     "span": HTMLSpanElement;
@@ -565,7 +565,7 @@ func Tr(children ...HTMLComponent) (r *HTMLTagBuilder) {
 
 //     "track": HTMLTrackElement;
 func Track(src string) (r *HTMLTagBuilder) {
-	return Tag("track").Attr("src", src)
+	return Tag("track").OmitEndTag().Attr("src", src)
 }
 
 //     "u": HTMLElement;
@@ -589,6 +589,6 @@ func Video(children ...HTMLComponent) (r *HTMLTagBuilder) {
 }
 
 //     "wbr": HTMLElement;
-func Wbr(text string) (r *HTMLTagBuilder) {
-	return Tag("wbr").Text(text)
+func Wbr() (r *HTMLTagBuilder) {
+	return Tag("wbr").OmitEndTag()
 }

@@ -332,7 +332,12 @@ func (b *HTMLTagBuilder) MarshalHTML(ctx context.Context) (r []byte, err error) 
 	}
 
 	buf := bytes.NewBuffer(nil)
-	buf.WriteString(fmt.Sprintf("\n<%s%s>", b.tag, attrStr))
+	newline := ""
+
+	if b.omitEndTag {
+		newline = "\n"
+	}
+	buf.WriteString(fmt.Sprintf("\n<%s%s>%s", b.tag, attrStr, newline))
 	if !b.omitEndTag {
 		if len(cs) > 0 {
 			// buf.WriteString("\n")

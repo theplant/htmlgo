@@ -23,7 +23,8 @@ func ExampleTag_01simplediv() {
 	Fprint(os.Stdout, comp, context.TODO())
 	//Output:
 	// <div>123&lt;h1&gt;Hello, We write html in Go
-	// <br></div>
+	// <br>
+	// </div>
 }
 
 /*
@@ -45,13 +46,13 @@ func ExampleTag_02fullhtml() {
 	//
 	// <html>
 	// <head>
-	// <meta charset='utf8'></meta>
+	// <meta charset='utf8'>
 	//
 	// <title>My test page</title>
 	// </head>
 	//
 	// <body>
-	// <img src='images/firefox-icon.png' alt='My test image'></img>
+	// <img src='images/firefox-icon.png' alt='My test image'>
 	// </body>
 	// </html>
 }
@@ -85,7 +86,7 @@ func ExampleTag_03rawhtmlandcomponent() {
 	// <div class='userProfile'>
 	// <h1 class='profileName'>felix&lt;h1&gt;</h1>
 	//
-	// <img src='http://image.com/img1.png' class='profileImage'></img>
+	// <img src='http://image.com/img1.png' class='profileImage'>
 	// <svg>complicated svg</svg>
 	// </div>
 	// </li>
@@ -94,7 +95,7 @@ func ExampleTag_03rawhtmlandcomponent() {
 	// <div class='userProfile'>
 	// <h1 class='profileName'>john</h1>
 	//
-	// <img src='http://image.com/img2.png' class='profileImage'></img>
+	// <img src='http://image.com/img2.png' class='profileImage'>
 	// <svg>complicated svg</svg>
 	// </div>
 	// </li>
@@ -305,7 +306,7 @@ func ExampleTag_06httphandler() {
 	//
 	// <html>
 	// <head>
-	// <meta charset='utf8'></meta>
+	// <meta charset='utf8'>
 	// </head>
 	//
 	// <body>
@@ -341,9 +342,9 @@ func ExampleTag_07MutipleTypeAttrs() {
 	Fprint(os.Stdout, comp, context.TODO())
 	//Output:
 	// <div>
-	// <input name='username' type='checkbox' checked more-data='{"Name":"felix","Count":100}' max-length='10'></input>
+	// <input name='username' type='checkbox' checked more-data='{"Name":"felix","Count":100}' max-length='10'>
 	//
-	// <input name='username2' type='checkbox'></input>
+	// <input name='username2' type='checkbox'>
 	// </div>
 }
 
