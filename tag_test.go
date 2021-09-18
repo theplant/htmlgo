@@ -53,17 +53,33 @@ var htmltagCases = []struct {
 </div>
 `,
 	},
+	{
+		name: "void tag",
+		tag: Div(),
+		expected: `
+<div/>
+`,
+	},
+	{
+		name: "void tag",
+		tag: Img("a"),
+		expected: `
+<img src='a'/>
+`,
+	},
 }
 
 func TestHtmlTag(t *testing.T) {
 	for _, c := range htmltagCases {
-		r, err := c.tag.MarshalHTML(context.TODO())
-		if err != nil {
-			panic(err)
-		}
-		diff := testingutils.PrettyJsonDiff(c.expected, string(r))
-		if len(diff) > 0 {
-			t.Error(c.name, diff)
-		}
+		t.Run(c.name, func(t *testing.T){
+			r, err := c.tag.MarshalHTML(context.TODO())
+			if err != nil {
+				panic(err)
+			}
+			diff := testingutils.PrettyJsonDiff(c.expected, string(r))
+			if len(diff) > 0 {
+				t.Error(c.name, diff)
+			}
+		})
 	}
 }
