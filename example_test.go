@@ -45,13 +45,13 @@ func ExampleTag_02fullhtml() {
 	//
 	// <html>
 	// <head>
-	// <meta charset='utf8'/>
+	// <meta charset='utf8'></meta>
 	//
 	// <title>My test page</title>
 	// </head>
 	//
 	// <body>
-	// <img src='images/firefox-icon.png' alt='My test image'/>
+	// <img src='images/firefox-icon.png' alt='My test image'></img>
 	// </body>
 	// </html>
 }
@@ -85,7 +85,7 @@ func ExampleTag_03rawhtmlandcomponent() {
 	// <div class='userProfile'>
 	// <h1 class='profileName'>felix&lt;h1&gt;</h1>
 	//
-	// <img src='http://image.com/img1.png' class='profileImage'/>
+	// <img src='http://image.com/img1.png' class='profileImage'></img>
 	// <svg>complicated svg</svg>
 	// </div>
 	// </li>
@@ -94,7 +94,7 @@ func ExampleTag_03rawhtmlandcomponent() {
 	// <div class='userProfile'>
 	// <h1 class='profileName'>john</h1>
 	//
-	// <img src='http://image.com/img2.png' class='profileImage'/>
+	// <img src='http://image.com/img2.png' class='profileImage'></img>
 	// <svg>complicated svg</svg>
 	// </div>
 	// </li>
@@ -305,7 +305,7 @@ func ExampleTag_06httphandler() {
 	//
 	// <html>
 	// <head>
-	// <meta charset='utf8'/>
+	// <meta charset='utf8'></meta>
 	// </head>
 	//
 	// <body>
@@ -341,9 +341,9 @@ func ExampleTag_07MutipleTypeAttrs() {
 	Fprint(os.Stdout, comp, context.TODO())
 	//Output:
 	// <div>
-	// <input name='username' type='checkbox' checked more-data='{"Name":"felix","Count":100}' max-length='10'/>
+	// <input name='username' type='checkbox' checked more-data='{"Name":"felix","Count":100}' max-length='10'></input>
 	//
-	// <input name='username2' type='checkbox'/>
+	// <input name='username2' type='checkbox'></input>
 	// </div>
 }
 
@@ -356,7 +356,7 @@ func ExampleTag_08styles() {
 		StyleIf("color:blue", true)
 	Fprint(os.Stdout, comp, context.TODO())
 	//Output:
-	// <div style='background-color:red; border:1px solid red; color:blue;'/>
+	// <div style='background-color:red; border:1px solid red; color:blue;'></div>
 }
 
 /*
