@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"html"
 	"strings"
+	"sync"
 )
 
 type tagAttr struct {
@@ -267,6 +268,12 @@ func (b *HTMLTagBuilder) PrependChildren(c ...HTMLComponent) (r *HTMLTagBuilder)
 	return b
 }
 
+var bufPool = sync.Pool{
+	New: func() any {
+		return &bytes.Buffer{}
+	},
+}
+
 func (b *HTMLTagBuilder) MarshalHTML(ctx context.Context) (r []byte, err error) {
 	class := strings.TrimSpace(strings.Join(b.classNames, " "))
 	if len(class) > 0 {
@@ -331,7 +338,10 @@ func (b *HTMLTagBuilder) MarshalHTML(ctx context.Context) (r []byte, err error) 
 		attrStr = " " + strings.Join(attrSegs, " ")
 	}
 
-	buf := bytes.NewBuffer(nil)
+	buf := bufPool.Get().(*bytes.Buffer)
+	defer bufPool.Put(buf)
+	buf.Reset()
+
 	newline := ""
 
 	if b.omitEndTag {
