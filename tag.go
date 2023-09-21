@@ -362,7 +362,8 @@ func (b *HTMLTagBuilder) MarshalHTML(ctx context.Context) (r []byte, err error) 
 		}
 		buf.WriteString(fmt.Sprintf("</%s>\n", b.tag))
 	}
-	r = buf.Bytes()
+	r = make([]byte, buf.Len())
+	copy(r, buf.Bytes())
 	return
 }
 
